@@ -1,19 +1,23 @@
 const express = require('express');
 const mysql = require('mysql2/promise');
 const cors = require('cors');
-
+const fs = require('fs');
+const toml = require('toml');
 const app = express();
 const port = 3001;
 
 app.use(cors());
 app.use(express.json());
 
+// Read the config file
+config = toml.parse(fs.readFileSync('./config.toml', 'utf-8'));
+
 // Create a MySQL connection pool
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '@The1299the',
-  database: 'todo_list',
+  host: config['todoInfo']['host'],
+  user: config['todoInfo']['user'],
+  password: config['todoInfo']['password'],
+  database: config['todoInfo']['database'],
   waitForConnections: true,
   connectionLimit: 10,
 });
