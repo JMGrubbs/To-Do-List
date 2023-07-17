@@ -1,38 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, List } from '@mui/material';
-import TodoForm from './components/TodoForm';
-import Todo from './components/Todo';
-import axios from 'axios';
+import TodoForm from './components/ToDo/TodoForm';
+import Todo from './components/ToDo/Todo';
+import {fetchTodos, deleteTodoAPI} from './components/ToDo/TodoAPI';
 
 function App() {
   const [todos, setTodos] = useState([]);
-
+  
   useEffect(() => {
-    fetchTodos();
+    fetchTodos().then(retTodos => {
+      let convertedList = []
+      Object.keys(retTodos).map(key => {
+        let todoObject = retTodos[key]
+        convertedList.push([todoObject["id"], todoObject["title"]]);
+        return null; // return null to remove warning
+      });
+      setTodos(convertedList)
+    })
   }, []);
 
-  const fetchTodos = async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/todos');
-      let temp = []
-      for (let i = 0; i < response.data.length; i++) {
-        console.log(response.data[i].title)
-        temp.push(response.data[i].title)
-      }
-      setTodos(temp);
-    } catch (error) {
-      console.error('Error fetching todos:', error);
-    }
-  };
-
   const addTodo = (todo) => {
-    // let tempTodos = fetchTodos()
-    console.log("tempTodos")
     setTodos([...todos, todo]);
   };
 
-  const deleteTodo = (index) => {
-    const updatedTodos = todos.filter((_, i) => i !== index);
+  const deleteTodo = (stateIndex, todoId) => {
+    deleteTodoAPI(todoId)
+    const updatedTodos = todos.filter((_, i) => i !== stateIndex);
     setTodos(updatedTodos);
   };
 
@@ -44,7 +37,7 @@ function App() {
       <TodoForm addTodo={addTodo} />
       <List>
         {todos.map((todo, index) => (
-          <Todo key={index} todo={todo} deleteTodo={() => deleteTodo(index)} />
+          <Todo key={index} todo={todo[1]} deleteTodo={() => deleteTodo(index, todo[0])} />
         ))}
       </List>
     </Container>

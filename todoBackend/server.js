@@ -54,7 +54,7 @@ app.post('/todos', async (req, res) => {
 app.patch('/todos/:id', async (req, res) => {
   const { id } = req.params;
   const { completed } = req.body;
-
+  console.log(req)
   try {
     await pool.query('UPDATE todos SET completed = ? WHERE id = ?', [completed, id]);
     res.sendStatus(200);
@@ -65,7 +65,7 @@ app.patch('/todos/:id', async (req, res) => {
 });
 
 // Delete a todo
-app.delete('/todos/:id', async (req, res) => {
+app.delete('/todos/delete/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
