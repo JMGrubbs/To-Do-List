@@ -34,48 +34,48 @@ app.get('/todos', async (req, res) => {
 });
 
 // Add a new todo
-app.post('/todos', async (req, res) => {
-  const { title } = req.body;
+// app.post('/todos', async (req, res) => {
+//   const { title } = req.body;
 
-  if (!title) {
-    return res.status(400).json({ error: 'Title is required' });
-  }
+//   if (!title) {
+//     return res.status(400).json({ error: 'Title is required' });
+//   }
 
-  try {
-    await pool.query('INSERT INTO todos (title) VALUES (?)', [title]);
-    res.sendStatus(201);
-  } catch (error) {
-    console.error('Error adding todo:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
+//   try {
+//     await pool.query('INSERT INTO todos (title) VALUES (?)', [title]);
+//     res.sendStatus(201);
+//   } catch (error) {
+//     console.error('Error adding todo:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
 
-// Update the completion status of a todo
-app.patch('/todos/:id', async (req, res) => {
-  const { id } = req.params;
-  const { completed } = req.body;
-  console.log(req)
-  try {
-    await pool.query('UPDATE todos SET completed = ? WHERE id = ?', [completed, id]);
-    res.sendStatus(200);
-  } catch (error) {
-    console.error('Error updating todo:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
+// // Update the completion status of a todo
+// app.patch('/todos/:id', async (req, res) => {
+//   const { id } = req.params;
+//   const { completed } = req.body;
+//   console.log(req)
+//   try {
+//     await pool.query('UPDATE todos SET completed = ? WHERE id = ?', [completed, id]);
+//     res.sendStatus(200);
+//   } catch (error) {
+//     console.error('Error updating todo:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
 
-// Delete a todo
-app.delete('/todos/delete/:id', async (req, res) => {
-  const { id } = req.params;
+// // Delete a todo
+// app.delete('/todos/delete/:id', async (req, res) => {
+//   const { id } = req.params;
 
-  try {
-    await pool.query('DELETE FROM todos WHERE id = ?', [id]);
-    res.sendStatus(200);
-  } catch (error) {
-    console.error('Error deleting todo:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
+//   try {
+//     await pool.query('DELETE FROM todos WHERE id = ?', [id]);
+//     res.sendStatus(200);
+//   } catch (error) {
+//     console.error('Error deleting todo:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
 
 // Start the server
 app.listen(port, () => {
