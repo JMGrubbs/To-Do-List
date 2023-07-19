@@ -3,12 +3,12 @@ node_modules
 /.pnp
 .pnp.js
 *.toml
+config.json
 # testing
 /coverage
 
 # production
-/build
-
+To-Do-List-App/todo-list-app/build
 # misc
 .DS_Store
 .env.local
