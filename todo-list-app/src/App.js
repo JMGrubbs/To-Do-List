@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Typography, List } from '@mui/material';
 import TodoForm from './components/ToDo/TodoForm';
 import Todo from './components/ToDo/Todo';
-import {fetchTodos, deleteTodoAPI} from './components/ToDo/TodoAPI';
+import {fetchTodos, deleteTodoAPI, createTodoAPI} from './components/ToDo/TodoAPI';
 import config from './config.json';
 
 function App() {
@@ -22,10 +22,15 @@ function App() {
     })
   }, []);
 
-  const addTodo = (todo) => {
-    setTodos([...todos, todo]);
+  const addTodo = async (todo) => {
+    try {
+      const newTodo = await createTodoAPI(todo, configAPI);
+      console.log(newTodo);
+      setTodos((prevTodos) => [...prevTodos, [newTodo.id, todo]]);
+    } catch (error) {
+      console.error('Error creating todo:', error);
+    }
   };
-
   const deleteTodo = (stateIndex, todoId) => {
     deleteTodoAPI(todoId, configAPI)
     const updatedTodos = todos.filter((_, i) => i !== stateIndex);

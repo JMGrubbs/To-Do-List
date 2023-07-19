@@ -22,7 +22,6 @@ export const fetchTodos = async (configAPI) => {
 };
 
 export const deleteTodoAPI = async (todoId, configAPI) => {
-    console.log(todoId)
     try {
         const response = await axios.delete(`${configAPI["API_URL"]}/delete/${todoId}`, {
             headers: { 
@@ -30,6 +29,21 @@ export const deleteTodoAPI = async (todoId, configAPI) => {
             }
         });
         return response.status
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+    }
+}
+
+export const createTodoAPI = async (todo, configAPI) => {
+    try {
+        const response = await axios.post(`${configAPI["API_URL"]}`, {
+            title: todo
+        }, {
+            headers: { 
+                'x-api-key': `${configAPI["API_KEY"]}`
+            }
+        });
+        return response.data
     } catch (error) {
       console.error('Error deleting todo:', error);
     }
