@@ -3,12 +3,15 @@ import { Container, Typography, List } from '@mui/material';
 import TodoForm from './components/ToDo/TodoForm';
 import Todo from './components/ToDo/Todo';
 import {fetchTodos, deleteTodoAPI} from './components/ToDo/TodoAPI';
+import config from './config.json';
 
 function App() {
   const [todos, setTodos] = useState([]);
+  const [configAPI, setConfigAPI] = useState(null);
   
   useEffect(() => {
-    fetchTodos().then(retTodos => {
+    setConfigAPI(config);
+    fetchTodos(config).then(retTodos => {
       let convertedList = []
       Object.keys(retTodos).map(key => {
         let todoObject = retTodos[key]
@@ -24,7 +27,7 @@ function App() {
   };
 
   const deleteTodo = (stateIndex, todoId) => {
-    deleteTodoAPI(todoId)
+    deleteTodoAPI(todoId, configAPI)
     const updatedTodos = todos.filter((_, i) => i !== stateIndex);
     setTodos(updatedTodos);
   };
