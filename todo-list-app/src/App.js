@@ -25,7 +25,6 @@ function App() {
   const addTodo = async (todo) => {
     try {
       const newTodo = await createTodoAPI(todo, configAPI);
-      console.log(newTodo);
       setTodos((prevTodos) => [...prevTodos, [newTodo.id, todo]]);
     } catch (error) {
       console.error('Error creating todo:', error);

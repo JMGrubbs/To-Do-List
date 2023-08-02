@@ -8,7 +8,7 @@ config.json
 /coverage
 
 # production
-To-Do-List-App/todo-list-app/build
+To-Do-List-App/todo-list-app/build/*
 # misc
 .DS_Store
 .env.local
